@@ -1,29 +1,53 @@
 <template>
   <div id="app">
-    <img alt="Vue logo" src="./assets/logo.png">
-    <HelloWorld msg="Welcome to Your Vue.js + TypeScript App"/>
+    <Todos v-bind:todos="todos" v-on:del-todo="deleteTodo"/>
   </div>
 </template>
 
 <script lang="ts">
-import { Component, Vue } from 'vue-property-decorator';
-import HelloWorld from './components/HelloWorld.vue';
+  import { Component, Vue, Prop } from "vue-property-decorator";
+  import { Todo } from "./types/Todo";
+  import Todos from "./components/Todos.vue";
 
-@Component({
-  components: {
-    HelloWorld,
-  },
-})
-export default class App extends Vue {}
+  @Component({
+    components: {
+      Todos
+    }
+  })
+  export default class App extends Vue {
+    private todos: Todo[] = [
+      {
+        id: 1,
+        title: "Todo One",
+        completed: false
+      },
+      {
+        id: 2,
+        title: "Todo Two",
+        completed: true
+      },
+      {
+        id: 3,
+        title: "Todo Three",
+        completed: false
+      }
+    ];
+
+    public deleteTodo(id: number): void {
+      this.todos = this.todos.filter((todo: Todo) => todo.id !== id);
+    }
+  }
 </script>
 
 <style>
-#app {
-  font-family: 'Avenir', Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
-  margin-top: 60px;
-}
+  * {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+  }
+
+  body {
+    font-family: Arial, Helvetica, sans-serif;
+    line-height: 1.4;
+  }
 </style>
