@@ -1,5 +1,7 @@
 <template>
   <div id="app">
+    <Header />
+    <AddTodo v-on:add-todo="addTodo"/>
     <Todos v-bind:todos="todos" v-on:del-todo="deleteTodo"/>
   </div>
 </template>
@@ -8,9 +10,13 @@
   import { Component, Vue, Prop } from "vue-property-decorator";
   import { Todo } from "./types/Todo";
   import Todos from "./components/Todos.vue";
+  import AddTodo from "./components/AddTodo.vue";
+  import Header from "./components/layout/Header.vue";
 
   @Component({
     components: {
+      Header,
+      AddTodo,
       Todos
     }
   })
@@ -36,6 +42,10 @@
     public deleteTodo(id: number): void {
       this.todos = this.todos.filter((todo: Todo) => todo.id !== id);
     }
+
+    public addTodo(newTodo: Todo): void {
+      this.todos = [...this.todos, newTodo];
+    }
   }
 </script>
 
@@ -49,5 +59,18 @@
   body {
     font-family: Arial, Helvetica, sans-serif;
     line-height: 1.4;
+  }
+
+  .btn {
+    display: inline-block;
+    border: none;
+    background: #555;
+    color: #fff;
+    padding: 7px 20px;
+    cursor: pointer;
+  }
+
+  .btn:hover {
+    background: #666
   }
 </style>
