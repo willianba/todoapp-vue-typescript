@@ -8,7 +8,6 @@
 </template>
 
 <script lang="ts">
-import uuid from "uuid";
 import Vue from "vue";
 import Component from "vue-class-component";
 import { Todo } from "../types/Todo";
@@ -22,7 +21,7 @@ export default class AddTodo extends Vue {
   public addTodo(event: Event): Todo {
     event.preventDefault();
     const newTodo: Todo = {
-      id: uuid.v4(),
+      id: "",
       title: this.title,
       completed: false
     };

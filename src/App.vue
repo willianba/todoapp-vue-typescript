@@ -7,6 +7,7 @@
 </template>
 
 <script lang="ts">
+  import axios, { AxiosResponse } from "axios";
   import { Component, Vue, Prop } from "vue-property-decorator";
   import { Todo } from "./types/Todo";
   import Todos from "./components/Todos.vue";
@@ -21,30 +22,25 @@
     }
   })
   export default class App extends Vue {
-    private todos: Todo[] = [
-      {
-        id: 1,
-        title: "Todo One",
-        completed: false
-      },
-      {
-        id: 2,
-        title: "Todo Two",
-        completed: true
-      },
-      {
-        id: 3,
-        title: "Todo Three",
-        completed: false
-      }
-    ];
+    private todos: Todo[] = [];
 
     public deleteTodo(id: number): void {
-      this.todos = this.todos.filter((todo: Todo) => todo.id !== id);
+      axios.delete(`https://jsonplaceholder.typicode.com/todos/${id}`)
+      .then((res: AxiosResponse) => this.todos = this.todos.filter((todo: Todo) => todo.id !== id))
+      .catch((error: Error) => console.error(error));
     }
 
     public addTodo(newTodo: Todo): void {
-      this.todos = [...this.todos, newTodo];
+      const { title, completed } = newTodo;
+      axios.post("https://jsonplaceholder.typicode.com/todos", { title, completed })
+        .then((res: AxiosResponse) => this.todos = [...this.todos, res.data])
+        .catch((error: Error) => console.error(error));
+    }
+
+    public created(): void {
+      axios.get("https://jsonplaceholder.typicode.com/todos?_limit=5")
+        .then((res: AxiosResponse) => this.todos = res.data)
+        .catch((error: Error) => console.error(error));
     }
   }
 </script>
