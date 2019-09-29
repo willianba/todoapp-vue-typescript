@@ -4,3 +4,9 @@
     <p>This is the TodoList app v1.0 using TypeScript!</p>
   </div>
 </template>
+
+<style scoped>
+  .about {
+    padding: 10px;
+  }
+</style>
