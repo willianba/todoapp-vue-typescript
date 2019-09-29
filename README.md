@@ -1,4 +1,4 @@
-# test
+# TodoApp - Vue & TypeScript
 
 ## Project setup
 ```
